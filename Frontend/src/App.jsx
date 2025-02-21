@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './App.css'; // Make sure this file is in the same folder
 
 function App() {
   const [jsonInput, setJsonInput] = useState('');
@@ -37,21 +38,21 @@ function App() {
   const renderResponse = () => {
     if (!apiResponse) return null;
     return (
-      <div>
+      <div className="response-container">
         {selectedOptions.includes('Alphabets') && apiResponse.alphabets && (
-          <div>
+          <div className="response-item">
             <h3>Alphabets</h3>
             <p>{apiResponse.alphabets.join(', ')}</p>
           </div>
         )}
         {selectedOptions.includes('Numbers') && apiResponse.numbers && (
-          <div>
+          <div className="response-item">
             <h3>Numbers</h3>
             <p>{apiResponse.numbers.join(', ')}</p>
           </div>
         )}
         {selectedOptions.includes('Highest Alphabet') && apiResponse.highest_alphabet && (
-          <div>
+          <div className="response-item">
             <h3>Highest Alphabet</h3>
             <p>{apiResponse.highest_alphabet.join(', ')}</p>
           </div>
@@ -61,38 +62,39 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h1>API Tester</h1>
-      <form onSubmit={handleSubmit}>
-        <textarea
-          value={jsonInput}
-          onChange={(e) => setJsonInput(e.target.value)}
-          placeholder='Enter JSON e.g. {"data": ["A", "C", "z"]}'
-          rows="5"
-          cols="50"
-        />
-        <br />
-        <button type="submit">Submit</button>
-      </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {apiResponse && (
-        <div>
-          <h2>Filter Options</h2>
-          <select 
-            multiple 
-            value={selectedOptions} 
-            onChange={handleDropdownChange}
-            style={{ width: '200px', height: '80px' }}
-          >
-            <option value="Alphabets">Alphabets</option>
-            <option value="Numbers">Numbers</option>
-            <option value="Highest Alphabet">Highest Alphabet</option>
-          </select>
-          <hr />
-          <h2>Response</h2>
-          {renderResponse()}
-        </div>
-      )}
+    <div className="container">
+      <div className="app-card">
+        <h1>API Tester</h1>
+        <form onSubmit={handleSubmit}>
+          <textarea
+            value={jsonInput}
+            onChange={(e) => setJsonInput(e.target.value)}
+            placeholder='Enter JSON e.g. {"data": ["A", "C", "z"]}'
+            rows="5"
+          />
+          <br />
+          <button type="submit" className="submit-btn">Submit</button>
+        </form>
+        {error && <p className="error-text">{error}</p>}
+        {apiResponse && (
+          <div className="filter-container">
+            <h2>Filter Options</h2>
+            <select 
+              multiple 
+              value={selectedOptions} 
+              onChange={handleDropdownChange}
+              className="multi-select"
+            >
+              <option value="Alphabets">Alphabets</option>
+              <option value="Numbers">Numbers</option>
+              <option value="Highest Alphabet">Highest Alphabet</option>
+            </select>
+            <hr />
+            <h2>Response</h2>
+            {renderResponse()}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
